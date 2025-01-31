@@ -29,7 +29,7 @@ function HolidaysForm({ addNewHoliday, initialData }) {
     const handleSubmit = (event) => {
         event.preventDefault();
         if (initialData && initialData.id) {
-            updateHoliday(); //PUT 
+            addNewHoliday(formData);
         } else {
             createHoliday(); // POST 
         }
@@ -52,26 +52,6 @@ function HolidaysForm({ addNewHoliday, initialData }) {
             console.error('Er is een fout opgetreden:', error);
         }
     }
-
-    async function updateHoliday() {
-        try {
-            const response = await fetch(`http://145.24.222.75:8000/holidays/` + initialData.id, {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-            if (!response.ok) throw new Error('Failed to update holiday');
-            const data = await response.json();
-            addNewHoliday(data);
-            navigate(`/holidays/` + data.id);
-        } catch (error) {
-            console.error('Error updating holiday:', error);
-        }
-    }
-
 
     return (
         <div className="mt-10">
